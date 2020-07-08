@@ -1,0 +1,53 @@
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.by import By
+import selenium.webdriver.support.ui as ui
+import selenium.webdriver.support.expected_conditions as EC
+import os
+from time import sleep
+from selenium.webdriver.support.ui import WebDriverWait
+options = Options()
+options.add_argument("--disable-infobars")
+options.add_experimental_option("prefs", {
+    "profile.default_content_setting_values.notifications": 1
+})
+browser = webdriver.Chrome('C:\chromedriver.exe')
+username = input('username?: ')
+profile = input('profile?: ')
+
+
+def waiting():
+
+    try:
+        WebDriverWait(browser, 90).until(
+            EC.presence_of_all_elements_located((By.XPATH, element))
+            )
+    finally:
+        pass
+
+
+class Bot:
+    def __init__(self, username, profile, browser):
+
+        self.driver = browser
+        self.username = username
+        self. profile = profile
+
+    def website(self):
+        self.driver.get('https://sky.lea.moe/' + username + '/' + profile)
+
+    def coins(self):
+        bank = self.driver.find_elements_by_xpath('//*[@id="additional_stats_container"]/div[4]/span[2]')
+        purse = self.driver.find_elements_by_xpath('//*[@id="additional_stats_container"]/div[3]/span[2]')
+        print(username, 'has', bank[0].text, 'in bank account')
+        print(username, 'has', purse[0].text, 'in purse.')
+
+
+element = '//*[@id="additional_stats_container"]/div[4]/span[2]'
+
+bot = Bot(username, profile, browser)
+bot.website()
+waiting()
+bot.coins()
+browser.quit()
